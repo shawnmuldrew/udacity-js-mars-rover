@@ -1,0 +1,46 @@
+gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
+
+https://api.nasa.gov/planetary/apod?api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
+
+Perseverance, Curiosity, Opportunity, and Spirit
+
+https://api.nasa.gov/mars-photos/api/v1/manifests/curiosity?api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
+https://api.nasa.gov/mars-photos/api/v1/manifests/opportunity?api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
+https://api.nasa.gov/mars-photos/api/v1/manifests/spirit?api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
+
+
+
+
+
+
+{
+"photo_manifest": {
+"name": "Curiosity",
+"landing_date": "2012-08-06",
+"launch_date": "2011-11-26",
+"status": "active",
+"max_sol": 3073,
+"max_date": "2021-03-29",
+"total_photos": 483437,
+"photos": [
+{
+"sol": 0,
+"earth_date": "2012-08-06",
+"total_photos": 3702,
+"cameras": [
+"CHEMCAM",
+"FHAZ",
+"MARDI",
+"RHAZ"
+]
+},
+{
+"sol": 1,
+"earth_date": "2012-08-07",
+"total_photos": 16,
+"cameras": [
+"MAHLI",
+"MAST",
+"NAVCAM"
+]
+},
