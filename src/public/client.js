@@ -2,6 +2,7 @@ let store = {
     user: { name: "Student" },
     apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+    roverData: '',
 }
 
 // add our markup to the page
@@ -19,8 +20,7 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-    let { rovers, apod } = state
-
+    let { rovers, apod, roverData } = state
     return `
         <header></header>
         <main>
@@ -37,6 +37,7 @@ const App = (state) => {
                     but generally help with discoverability of relevant imagery.
                 </p>
                 ${ImageOfTheDay(apod)}
+                ${ShowRoverData(roverData)}
             </section>
         </main>
         <footer></footer>
@@ -46,6 +47,8 @@ const App = (state) => {
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store)
+    //Test getting rover data
+    getRoverData('curiosity');
 })
 
 // ------------------------------------------------------  COMPONENTS
@@ -69,24 +72,39 @@ const ImageOfTheDay = (apod) => {
     // If image does not already exist, or it is not from today -- request it again
     const today = new Date()
     const photodate = new Date(apod.date)
-    console.log(photodate.getDate(), today.getDate());
+    //console.log(photodate.getDate(), today.getDate());
 
-    console.log(photodate.getDate() === today.getDate());
+    //console.log(photodate.getDate() === today.getDate());
     if (!apod || apod.date === today.getDate() ) {
-        getImageOfTheDay(store)
+        //getImageOfTheDay(store)
+        getImageOfTheDay()
     }
 
     // check if the photo of the day is actually type video!
-    if (apod.media_type === "video") {
+    if (apod) {
+        if (apod.media_type === "video") {
+            return (`
+                <p>See today's featured video <a href="${apod.url}">here</a></p>
+                <p>${apod.title}</p>
+                <p>${apod.explanation}</p>
+            `)
+        } else {
+            return (`
+                <img src="${apod.image.url}" height="350px" width="100%" />
+                <p>${apod.image.explanation}</p>
+            `)
+        }
+    }
+}
+
+const ShowRoverData = (roverData) => {
+
+    if (roverData) {
+    
         return (`
-            <p>See today's featured video <a href="${apod.url}">here</a></p>
-            <p>${apod.title}</p>
-            <p>${apod.explanation}</p>
-        `)
-    } else {
-        return (`
-            <img src="${apod.image.url}" height="350px" width="100%" />
-            <p>${apod.image.explanation}</p>
+            <p>Rover: ${roverData.roverInfo.photo_manifest.name}</p>
+            <p>Landing Date: ${roverData.roverInfo.photo_manifest.landing_date}</p>
+            <p>Launch Date: ${roverData.roverInfo.photo_manifest.launch_date}</p>
         `)
     }
 }
@@ -94,12 +112,20 @@ const ImageOfTheDay = (apod) => {
 // ------------------------------------------------------  API CALLS
 
 // Example API call
-const getImageOfTheDay = (state) => {
-    let { apod } = state
+const getImageOfTheDay = () => {
+    // let { apod } = state
 
     fetch(`http://localhost:3000/apod`)
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
 
-    return data
+    //return data
 }
+
+const getRoverData = (roverName) => {
+    fetch(`http://localhost:3000/rover?name=${roverName}`)
+        .then(res => res.json())
+        .then(roverData => updateStore(store, { roverData }))
+}
+
+
