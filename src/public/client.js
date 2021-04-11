@@ -1,7 +1,15 @@
 let store = {
     user: { name: "Student" },
     apod: '',
-    rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+    rovers: [ { name: 'Curiosity',
+                image: 'assets/images/spirit_resize.jpg'},
+                { name: 'Opportunity',
+                image: 'assets/images/opportunity_resize.jpg'},
+                { name: 'Spirit',
+                image: 'assets/images/spirit_resize.jpg'},
+                { name: 'Perseverance',
+                image: 'assets/images/perseverance_resize.jpg'}                
+            ],
     roverData: '',
 }
 
@@ -26,17 +34,10 @@ const App = (state) => {
         <main>
             ${Greeting(store.user.name)}
             <section>
-                <h3>Put things on the page!</h3>
-                <p>Here is an example section.</p>
-                <p>
-                    One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
-                    the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
-                    This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
-                    applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
-                    explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
-                    but generally help with discoverability of relevant imagery.
-                </p>
-                ${ImageOfTheDay(apod)}
+                <h2>Mars Rovers</h2>
+                <div class="grid">
+                    ${ShowRoverList(rovers)}
+                </div>
                 ${ShowRoverData(roverData)}
             </section>
         </main>
@@ -64,6 +65,19 @@ const Greeting = (name) => {
     return `
         <h1>Hello!</h1>
     `
+}
+
+const ShowRoverList = (rovers) => {
+    roverList = '';
+    rovers.forEach(rover => {
+        roverList += 
+        `<article>
+            <img src="${rover.image}" alt="${rover.name}">
+            <h3 class="rover-text">${rover.name} Rover</h3>
+            <button class="rover-button">Show Images</button>
+        </article>`
+    })
+    return roverList;
 }
 
 // Example of a pure function that renders infomation requested from the backend

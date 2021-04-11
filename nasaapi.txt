@@ -1,3 +1,7 @@
+Notes:
+
+grid example: https://www.quackit.com/html/html_editors/scratchpad/?example=/css/grid/examples/cards_auto-fill_align-items_stretch
+
 gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
 
 https://api.nasa.gov/planetary/apod?api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
@@ -9,7 +13,7 @@ https://api.nasa.gov/mars-photos/api/v1/manifests/opportunity?api_key=gseHTMHhDB
 https://api.nasa.gov/mars-photos/api/v1/manifests/spirit?api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
 
 
-
+https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
 
 
 
