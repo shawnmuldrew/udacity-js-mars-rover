@@ -12,10 +12,12 @@ https://api.nasa.gov/mars-photos/api/v1/manifests/curiosity?api_key=gseHTMHhDBv8
 https://api.nasa.gov/mars-photos/api/v1/manifests/opportunity?api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
 https://api.nasa.gov/mars-photos/api/v1/manifests/spirit?api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
 
+Sol and Camera:
+https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1&camera=fhaz&api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
 
-https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
 
 
+Top Level Rover Data:
 
 {
 "photo_manifest": {
@@ -23,9 +25,9 @@ https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key
 "landing_date": "2012-08-06",
 "launch_date": "2011-11-26",
 "status": "active",
-"max_sol": 3073,
-"max_date": "2021-03-29",
-"total_photos": 483437,
+"max_sol": 3086,
+"max_date": "2021-04-11",
+"total_photos": 486650,
 "photos": [
 {
 "sol": 0,
@@ -47,4 +49,69 @@ https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key
 "MAST",
 "NAVCAM"
 ]
+},
+
+Rover Photos for a Sol:
+
+https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=3084&api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
+https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=1&api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
+
+{
+"photos": [
+{
+"id": 822875,
+"sol": 3084,
+"camera": {
+"id": 20,
+"name": "FHAZ",
+"rover_id": 5,
+"full_name": "Front Hazard Avoidance Camera"
+},
+"img_src": "https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/03084/opgs/edr/fcam/FLB_671267938EDR_F0872214FHAZ00341M_.JPG",
+"earth_date": "2021-04-09",
+"rover": {
+"id": 5,
+"name": "Curiosity",
+"landing_date": "2012-08-06",
+"launch_date": "2011-11-26",
+"status": "active"
+}
+},
+{
+"id": 822876,
+"sol": 3084,
+"camera": {
+"id": 20,
+"name": "FHAZ",
+"rover_id": 5,
+"full_name": "Front Hazard Avoidance Camera"
+},
+"img_src": "https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/03084/opgs/edr/fcam/FRB_671267938EDR_F0872214FHAZ00341M_.JPG",
+"earth_date": "2021-04-09",
+"rover": {
+"id": 5,
+"name": "Curiosity",
+"landing_date": "2012-08-06",
+"launch_date": "2011-11-26",
+"status": "active"
+}
+},
+{
+"id": 822877,
+"sol": 3084,
+"camera": {
+"id": 21,
+"name": "RHAZ",
+"rover_id": 5,
+"full_name": "Rear Hazard Avoidance Camera"
+},
+"img_src": "https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/03084/opgs/edr/rcam/RLB_671267972EDR_F0872214RHAZ00341M_.JPG",
+"earth_date": "2021-04-09",
+"rover": {
+"id": 5,
+"name": "Curiosity",
+"landing_date": "2012-08-06",
+"launch_date": "2011-11-26",
+"status": "active"
+}
 },
