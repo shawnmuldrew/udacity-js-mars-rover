@@ -35,7 +35,7 @@ const App = (state) => {
         <main>
             <section>
                 <h2>Mars Rovers</h2>
-                <p>Learn about the Mars rovers and view pictures they took of the planet</p>
+                <p>Learn about the rovers and view pictures they took of the planet Mars</p>
                 <div class="grid">
                     ${ShowRoverList(rovers)}
                 </div>
@@ -114,7 +114,13 @@ const ShowRoverList = (rovers) => {
 
 const ShowRoverData = (roverData) => {
     console.log('In ShowRoverData')
-    if (roverData) {
+    if (roverData === 'getRoverData') {
+        return (`<h2> Loading rover data...</h2>`)
+    }
+    else if (!roverData) {
+        return ''
+    }
+    else {
         return (`
             <h2>${roverData.roverInfo.photo_manifest.name} Rover mission is ${roverData.roverInfo.photo_manifest.status}</h2>
             <p>Landing Date: ${roverData.roverInfo.photo_manifest.landing_date}</p>
@@ -124,14 +130,18 @@ const ShowRoverData = (roverData) => {
             <p>Sols of Photos: ${roverData.roverInfo.photo_manifest.max_sol}</p>
             <button class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn" onclick=getRoverImages('${roverData.roverInfo.photo_manifest.name}','${roverData.roverInfo.photo_manifest.max_sol}')>Show Images</button>
         `)
-    } else {
-        return ''
     }
 }
 
 const ShowRoverImages = (roverImages) => {
     console.log('In ShowRoverImages')
-    if (roverImages) {
+    if (roverImages === 'getRoverImages') {
+        return (`<h2> Loading rover images...</h2>`)
+    }
+    else if (!roverImages) {
+        return ''
+    }
+    else {
         let imageInfo = 
             `<h2>Images</h2> 
             <div class="image-row">
@@ -139,15 +149,13 @@ const ShowRoverImages = (roverImages) => {
     //TODO: 
     //   Do we want to display camera and other information about the photo               
     //   Do we want to resize the photos
-    //   We need to remove photos when a diffeent rover to selected
+    //   We need to remove photos when a different rover is selected
         roverImages.roverImages.photos.forEach(photo => {
             imageInfo += `<img src="${photo.img_src}" alt="${photo.id}">`
         })
         imageInfo += `    </div>`
         imageInfo += `</div>`
         return imageInfo
-    } else {
-        return ''
     }
 }
 
@@ -166,6 +174,9 @@ const ShowRoverImages = (roverImages) => {
 
 // API call to retrieve data for a rover
 const getRoverData = (roverName) => {
+    roverData = 'getRoverData'
+    roverImages = ''
+    updateStore(store, { roverData, roverImages })
     fetch(`http://localhost:3000/rover?name=${roverName}`)
         .then(res => res.json())
         .then(roverData => updateStore(store, { roverData }))
@@ -173,6 +184,8 @@ const getRoverData = (roverName) => {
 
 // API call to retrieve images for a rover
 const getRoverImages = (roverName, sol) => {
+    roverImages = 'getRoverImages'
+    updateStore(store, { roverImages })
     fetch(`http://localhost:3000/images?name=${roverName}&sol=${sol}`)
         .then(res => res.json())
         .then(roverImages => updateStore(store, { roverImages }))
