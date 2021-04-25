@@ -67,55 +67,46 @@ footer {
 }
 
 .rover-image-button {
-  padding: 0 20px 20px;
+  padding: 12px 20px;
+  margin: 8px 0;
   background: gray;
   border: 0;
   color: white;
-  padding: 10px;
-  width: 100%;
+  width: 150px;
   bottom: 0;
   transition-duration: 0.4s;
+}
+
+.rover-image-input {
+  padding: 12px 20px;
+  width: 150px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+
 }
 
 .rover-image-button:hover {
   background-color: rgb(104, 101, 101);
 }
 
-.image-row {
-  display: flex;
-}
-
-.image-column {
-  flex: 25%;
-  padding: 5px;
-}
-
-.image-column img{
-  max-width: 20%;
-  padding: 5px;
-}
-
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
-  .rover-image-button {
-    width: 50%;
-  }
+
 }
 
 /* -------------------  DESKTOP  -------------------- */
 
 @media (min-width: 1224px) {
-  .rover-image-button {
-    width: 33%;
-  }
+
 }
 
 /* -------------------  LARGE SCREENS  -------------- */
 
 @media (min-width: 1824px) {
-  .rover-image-button {
-    width: 25%;
-  }
+
 }
 

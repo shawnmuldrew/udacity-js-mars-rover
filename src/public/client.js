@@ -14,7 +14,7 @@ let store = {
     roverImages: '',
 }
 
-// add our markup to the page
+// Add our markup to the page
 const root = document.getElementById('root')
 
 const updateStore = (store, newState) => {
@@ -27,7 +27,7 @@ const render = async (root, state) => {
 }
 
 
-// create content
+// Create content
 const App = (state) => {
     let { rovers, apod, roverData, roverImages } = state
     return `
@@ -40,8 +40,8 @@ const App = (state) => {
                     ${ShowRoverList(rovers)}
                 </div>
                 ${ShowRoverData(roverData)}
+                ${ShowRoverImages(roverImages)}
             </section>
-            ${ShowRoverImages(roverImages)}
         </main>
         <footer></footer>
     `
@@ -75,7 +75,7 @@ const ShowRoverList = (rovers) => {
         `<article>
             <img src="${rover.image}" alt="${rover.name}">
             <h3 class="rover-text">${rover.name}</h3>
-            <button class="rover-button" id="rover-${rover.name}-btn" onclick="getRoverData('${rover.name}')">Learn more</button>
+            <button type="button" class="rover-button" id="rover-${rover.name}-btn" onclick="getRoverData('${rover.name}')">Learn more</button>
         </article>`
     })
     return roverList;
@@ -121,6 +121,11 @@ const ShowRoverData = (roverData) => {
         return ''
     }
     else {
+        console.log(roverData.roverInfo.photo_manifest.photos[0].total_photos)
+        const maxPhotoDay = roverData.roverInfo.photo_manifest.photos.reduce( (maxSol, currentSol) => {
+            return maxSol.total_photos > currentSol.total_photos ? maxSol : currentSol
+        })
+        console.log(maxPhotoDay)
         return (`
             <h2>${roverData.roverInfo.photo_manifest.name} Rover mission is ${roverData.roverInfo.photo_manifest.status}</h2>
             <p>Landing Date: ${roverData.roverInfo.photo_manifest.landing_date}</p>
@@ -128,8 +133,21 @@ const ShowRoverData = (roverData) => {
             <p>Photos Taken: ${roverData.roverInfo.photo_manifest.total_photos}</p>
             <p>Last Photo Date: ${roverData.roverInfo.photo_manifest.max_date}</p>
             <p>Sols of Photos: ${roverData.roverInfo.photo_manifest.max_sol}</p>
-            <button class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn" onclick=getRoverImages('${roverData.roverInfo.photo_manifest.name}','${roverData.roverInfo.photo_manifest.max_sol}')>Show Images</button>
+            <p>Sol ${maxPhotoDay.sol} (Earth Date: ${maxPhotoDay.earth_date}) was the day with the most photos. A total of ${maxPhotoDay.total_photos} snapshots were taken</p>
+            <form onsubmit=getRoverImages('${roverData.roverInfo.photo_manifest.name}')>
+                <label for="sol">Enter Sol Number for Images (between 1 and ${roverData.roverInfo.photo_manifest.max_sol}):</label><br>
+                <input type="number" min="1" max="${roverData.roverInfo.photo_manifest.max_sol}" class="rover-image-input" id="sol-id" name="sol-name" placeholder="Enter Sol..." required>
+                <button type="submit" class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn">Show Images</button>
+            </form>
         `)
+        // <input type="submit" value="Show Images" class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn">
+        // <button class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn" onclick=getRoverImages('${roverData.roverInfo.photo_manifest.name}','${roverData.roverInfo.photo_manifest.max_sol}')>Show Images</button>
+
+        // <form onsubmit=getRoverImages('${roverData.roverInfo.photo_manifest.name}')>
+        // <label for="sol">Enter Sol Number for Images (between 1 and ${roverData.roverInfo.photo_manifest.max_sol}):</label><br>
+        // <input type="number" min="1" max="${roverData.roverInfo.photo_manifest.max_sol}" class="rover-image-input" id="sol-id" name="sol-name" placeholder="Enter Sol..." required>
+        // <button type="submit" class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn">Show Images</button>
+        // </form>
     }
 }
 
@@ -143,17 +161,20 @@ const ShowRoverImages = (roverImages) => {
     }
     else {
         let imageInfo = 
-            `<h2>Images</h2> 
-            <div class="image-row">
-                <div class="image-column">`
+            `<h2>${roverImages.roverImages.photos[0].rover.name} Images for Sol ${roverImages.roverImages.photos[0].sol}</h2> 
+            <div class="grid">`
     //TODO: 
-    //   Do we want to display camera and other information about the photo               
-    //   Do we want to resize the photos
-    //   We need to remove photos when a different rover is selected
+    //   Count photos for that day with reduce function and ask for confirmation to return
+    //   Use map function for something ??
+    //   Day with most photos
+    //   Count photos by each camera
+    //   Show cameras for each rover
         roverImages.roverImages.photos.forEach(photo => {
-            imageInfo += `<img src="${photo.img_src}" alt="${photo.id}">`
+            imageInfo += `<article>`
+            imageInfo += `  <p>Camera: ${photo.camera.name}</p>`
+            imageInfo += `  <img src="${photo.img_src}" alt="${photo.id}">`
+            imageInfo += `</article>`
         })
-        imageInfo += `    </div>`
         imageInfo += `</div>`
         return imageInfo
     }
@@ -183,10 +204,12 @@ const getRoverData = (roverName) => {
 }
 
 // API call to retrieve images for a rover
-const getRoverImages = (roverName, sol) => {
+const getRoverImages = (roverName) => {
     roverImages = 'getRoverImages'
+    const solImages = document.getElementById('sol-id').value
+    console.log('Sol: '+solImages)
     updateStore(store, { roverImages })
-    fetch(`http://localhost:3000/images?name=${roverName}&sol=${sol}`)
+    fetch(`http://localhost:3000/images?name=${roverName}&sol=${solImages}`)
         .then(res => res.json())
         .then(roverImages => updateStore(store, { roverImages }))
 }
