@@ -3,6 +3,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const fetch = require('node-fetch')
 const path = require('path')
+// import immutablejs.js
+const Immutable = require('immutable');
 
 const app = express()
 const port = 3000
@@ -52,4 +54,4 @@ app.get('/images', async (req, res) => {
     }
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Mars Rover information app listening on port ${port}!`))

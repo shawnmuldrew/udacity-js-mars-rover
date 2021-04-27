@@ -1,4 +1,6 @@
-let store = {
+
+let store = Immutable.Map({
+//let store = {
     user: { name: "Student" },
     apod: '',
     rovers: [ { name: 'Curiosity',
@@ -12,24 +14,33 @@ let store = {
             ],
     roverData: '',
     roverImages: '',
-}
+});
 
 // Add our markup to the page
 const root = document.getElementById('root')
 
+// const updateStore = (store, newState) => {
+//     store = Object.assign(store, newState)
+//     render(root, store)
+// }
+
 const updateStore = (store, newState) => {
-    store = Object.assign(store, newState)
-    render(root, store)
+    store = store.merge(newState);
+    render(root, store);
 }
+
+// const render = async (root, state) => {
+//     root.innerHTML = App(state)
+// }
 
 const render = async (root, state) => {
-    root.innerHTML = App(state)
+    console.log(state.toJS())
+    root.innerHTML = App(state.toJS())
 }
-
 
 // Create content
 const App = (state) => {
-    let { rovers, apod, roverData, roverImages } = state
+    let { rovers, roverData, roverImages } = state
     return `
         <header></header>
         <main>
