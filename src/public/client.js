@@ -1,9 +1,7 @@
 
 let store = Immutable.Map({
 //let store = {
-    user: { name: "Student" },
-    apod: '',
-    rovers: [ { name: 'Curiosity',
+   rovers: [ { name: 'Curiosity',
                 image: 'assets/images/curiosity_resize.jpg'},
                 { name: 'Opportunity',
                 image: 'assets/images/opportunity_resize.jpg'},
@@ -24,8 +22,8 @@ const root = document.getElementById('root')
 //     render(root, store)
 // }
 
-const updateStore = (store, newState) => {
-    store = store.merge(newState);
+const updateStore = (state, newState) => {
+    store = state.merge(newState);
     render(root, store);
 }
 
@@ -34,7 +32,6 @@ const updateStore = (store, newState) => {
 // }
 
 const render = async (root, state) => {
-    console.log(state.toJS())
     root.innerHTML = App(state.toJS())
 }
 
@@ -151,14 +148,6 @@ const ShowRoverData = (roverData) => {
                 <button type="submit" class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn">Show Images</button>
             </form>
         `)
-        // <input type="submit" value="Show Images" class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn">
-        // <button class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn" onclick=getRoverImages('${roverData.roverInfo.photo_manifest.name}','${roverData.roverInfo.photo_manifest.max_sol}')>Show Images</button>
-
-        // <form onsubmit=getRoverImages('${roverData.roverInfo.photo_manifest.name}')>
-        // <label for="sol">Enter Sol Number for Images (between 1 and ${roverData.roverInfo.photo_manifest.max_sol}):</label><br>
-        // <input type="number" min="1" max="${roverData.roverInfo.photo_manifest.max_sol}" class="rover-image-input" id="sol-id" name="sol-name" placeholder="Enter Sol..." required>
-        // <button type="submit" class="rover-image-button" id="rover-images-${roverData.roverInfo.photo_manifest.name}-btn">Show Images</button>
-        // </form>
     }
 }
 

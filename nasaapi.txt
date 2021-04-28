@@ -51,6 +51,18 @@ Top Level Rover Data:
 ]
 },
 
+MAP:
+
+"name": "Curiosity",
+"landing_date": "2012-08-06",
+"launch_date": "2011-11-26",
+"status": "active",
+"max_sol": 3086,
+"max_date": "2021-04-11",
+"total_photos": 486650
+
+
+
 Rover Photos for a Sol:
 
 https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=3084&api_key=gseHTMHhDBv8gkN2XTx9LeJLXyxS4iHXiAw7xbKw
@@ -115,3 +127,12 @@ https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=1&api_key=
 "status": "active"
 }
 },
+
+
+MAP:
+"id": 822876,
+"sol": 3084,
+"camera": "FHAZ",
+"img_src": "https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/03084/opgs/edr/rcam/RLB_671267972EDR_F0872214RHAZ00341M_.JPG",
+"earth_date": "2021-04-09",
+"rover": "Curiosity"
