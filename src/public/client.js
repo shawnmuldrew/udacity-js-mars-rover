@@ -38,6 +38,7 @@ const render = async (root, state) => {
 // Create content
 const App = (state) => {
     let { rovers, roverData, roverImages } = state
+    console.log(roverImages)
     return `
         <header></header>
         <main>
@@ -122,6 +123,7 @@ const ShowRoverList = (rovers) => {
 
 const ShowRoverData = (roverData) => {
     console.log('In ShowRoverData')
+    //console.log(roverData)
     if (roverData === 'getRoverData') {
         return (`<h2> Loading rover data...</h2>`)
     }
@@ -129,11 +131,11 @@ const ShowRoverData = (roverData) => {
         return ''
     }
     else {
-        console.log(roverData.roverInfo.photo_manifest.photos[0].total_photos)
+        //console.log(roverData.roverInfo.photo_manifest.photos[0].total_photos)
         const maxPhotoDay = roverData.roverInfo.photo_manifest.photos.reduce( (maxSol, currentSol) => {
             return maxSol.total_photos > currentSol.total_photos ? maxSol : currentSol
         })
-        console.log(maxPhotoDay)
+        //console.log(maxPhotoDay)
         return (`
             <h2>${roverData.roverInfo.photo_manifest.name} Rover mission is ${roverData.roverInfo.photo_manifest.status}</h2>
             <p>Landing Date: ${roverData.roverInfo.photo_manifest.landing_date}</p>
@@ -153,6 +155,7 @@ const ShowRoverData = (roverData) => {
 
 const ShowRoverImages = (roverImages) => {
     console.log('In ShowRoverImages')
+    //console.log(roverImages)
     if (roverImages === 'getRoverImages') {
         return (`<h2> Loading rover images...</h2>`)
     }
@@ -161,7 +164,7 @@ const ShowRoverImages = (roverImages) => {
     }
     else {
         let imageInfo = 
-            `<h2>${roverImages.roverImages.photos[0].rover.name} Images for Sol ${roverImages.roverImages.photos[0].sol}</h2> 
+            `<h2>${roverImages.photos[0].name} Images for Sol ${roverImages.photos[0].sol}</h2> 
             <div class="grid">`
     //TODO: 
     //   Count photos for that day with reduce function and ask for confirmation to return
@@ -169,15 +172,29 @@ const ShowRoverImages = (roverImages) => {
     //   Day with most photos
     //   Count photos by each camera
     //   Show cameras for each rover
-        roverImages.roverImages.photos.forEach(photo => {
+        roverImages.photos.forEach(photo => {
             imageInfo += `<article>`
-            imageInfo += `  <p>Camera: ${photo.camera.name}</p>`
+            imageInfo += `  <p>Camera: ${photo.camera}</p>`
             imageInfo += `  <img src="${photo.img_src}" alt="${photo.id}">`
             imageInfo += `</article>`
         })
         imageInfo += `</div>`
         return imageInfo
     }
+}
+
+mapImageData = (rawImagePhotos) => {
+    //console.log(rawImagePhotos)
+    rawImagePhotos.roverImages.photos.map(photosSol => {
+        return {
+            id: photosSol.id,
+            sol: photosSol.sol,
+            camera: photosSol.camera,
+            img_src: photosSol.img_src,
+            earth_date: photosSol.earth_date,
+            rover: photosSol.rover.name
+        }
+    })
 }
 
 // ------------------------------------------------------  API CALLS
@@ -207,10 +224,12 @@ const getRoverData = (roverName) => {
 const getRoverImages = (roverName) => {
     roverImages = 'getRoverImages'
     const solImages = document.getElementById('sol-id').value
-    console.log('Sol: '+solImages)
+    //console.log('Sol: '+solImages)
     updateStore(store, { roverImages })
     fetch(`http://localhost:3000/images?name=${roverName}&sol=${solImages}`)
         .then(res => res.json())
+        .then(rawImageData => mapImageData(rawImageData))
+        // .then(roverImages => console.log(roverImages))
         .then(roverImages => updateStore(store, { roverImages }))
 }
 
