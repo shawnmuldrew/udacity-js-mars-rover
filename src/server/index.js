@@ -3,7 +3,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const fetch = require('node-fetch')
 const path = require('path')
-// import immutablejs.js
 const Immutable = require('immutable');
 
 const app = express()
@@ -16,16 +15,16 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 
 // your API calls
 
-// example API call
-app.get('/apod', async (req, res) => {
-    try {
-        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
-            .then(res => res.json())
-        res.send({ image })
-    } catch (err) {
-        console.log('error:', err);
-    }
-})
+// // example API call
+// app.get('/apod', async (req, res) => {
+//     try {
+//         let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
+//             .then(res => res.json())
+//         res.send({ image })
+//     } catch (err) {
+//         console.log('error:', err);
+//     }
+// })
 
 // API call for rover data - query string must be name of rover
 app.get('/rover', async (req, res) => {

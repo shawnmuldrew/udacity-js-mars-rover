@@ -1,6 +1,5 @@
 
 let store = Immutable.Map({
-//let store = {
    rovers: [ { name: 'Curiosity',
                 image: 'assets/images/curiosity_resize.jpg'},
                 { name: 'Opportunity',
@@ -17,19 +16,10 @@ let store = Immutable.Map({
 // Add our markup to the page
 const root = document.getElementById('root')
 
-// const updateStore = (store, newState) => {
-//     store = Object.assign(store, newState)
-//     render(root, store)
-// }
-
 const updateStore = (state, newState) => {
     store = state.merge(newState);
     render(root, store);
 }
-
-// const render = async (root, state) => {
-//     root.innerHTML = App(state)
-// }
 
 const render = async (root, state) => {
     root.innerHTML = App(state.toJS())
@@ -38,7 +28,6 @@ const render = async (root, state) => {
 // Create content
 const App = (state) => {
     let { rovers, roverData, roverImages } = state
-    console.log(roverImages)
     return `
         <header></header>
         <main>
@@ -56,25 +45,12 @@ const App = (state) => {
     `
 }
 
-// listening for load event because page should load before any JS is called
+// Listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store)
 })
 
 // ------------------------------------------------------  COMPONENTS
-
-// Pure function that renders conditional information -- THIS IS JUST AN EXAMPLE, you can delete it.
-// const Greeting = (name) => {
-//     if (name) {
-//         return `
-//             <h1>Welcome, ${name}!</h1>
-//         `
-//     }
-
-//     return `
-//         <h1>Hello!</h1>
-//     `
-// }
 
 const ShowRoverList = (rovers) => {
     console.log('In ShowRoverList')
@@ -90,52 +66,19 @@ const ShowRoverList = (rovers) => {
     return roverList;
 }
 
-// // Example of a pure function that renders infomation requested from the backend
-// const ImageOfTheDay = (apod) => {
-
-//     // If image does not already exist, or it is not from today -- request it again
-//     const today = new Date()
-//     const photodate = new Date(apod.date)
-//     //console.log(photodate.getDate(), today.getDate());
-
-//     //console.log(photodate.getDate() === today.getDate());
-//     if (!apod || apod.date === today.getDate() ) {
-//         //getImageOfTheDay(store)
-//         getImageOfTheDay()
-//     }
-
-//     // check if the photo of the day is actually type video!
-//     if (apod) {
-//         if (apod.media_type === "video") {
-//             return (`
-//                 <p>See today's featured video <a href="${apod.url}">here</a></p>
-//                 <p>${apod.title}</p>
-//                 <p>${apod.explanation}</p>
-//             `)
-//         } else {
-//             return (`
-//                 <img src="${apod.image.url}" height="350px" width="100%" />
-//                 <p>${apod.image.explanation}</p>
-//             `)
-//         }
-//     }
-// }
-
 const ShowRoverData = (roverData) => {
     console.log('In ShowRoverData')
-    //console.log(roverData)
     if (roverData === 'getRoverData') {
         return (`<h2> Loading rover data...</h2>`)
     }
     else if (!roverData) {
         return ''
     }
-    else {
-        //console.log(roverData.roverInfo.photo_manifest.photos[0].total_photos)
+    else {  
         const maxPhotoDay = roverData.roverInfo.photo_manifest.photos.reduce( (maxSol, currentSol) => {
             return maxSol.total_photos > currentSol.total_photos ? maxSol : currentSol
         })
-        //console.log(maxPhotoDay)
+        
         return (`
             <h2>${roverData.roverInfo.photo_manifest.name} Rover mission is ${roverData.roverInfo.photo_manifest.status}</h2>
             <p>Landing Date: ${roverData.roverInfo.photo_manifest.landing_date}</p>
@@ -155,7 +98,6 @@ const ShowRoverData = (roverData) => {
 
 const ShowRoverImages = (roverImages) => {
     console.log('In ShowRoverImages')
-    //console.log(roverImages)
     if (roverImages === 'getRoverImages') {
         return (`<h2> Loading rover images...</h2>`)
     }
@@ -166,12 +108,6 @@ const ShowRoverImages = (roverImages) => {
         let imageInfo = 
             `<h2>${roverImages.photos[0].name} Images for Sol ${roverImages.photos[0].sol}</h2> 
             <div class="grid">`
-    //TODO: 
-    //   Count photos for that day with reduce function and ask for confirmation to return
-    //   Use map function for something ??
-    //   Day with most photos
-    //   Count photos by each camera
-    //   Show cameras for each rover
         roverImages.photos.forEach(photo => {
             imageInfo += `<article>`
             imageInfo += `  <p>Camera: ${photo.camera}</p>`
@@ -184,31 +120,17 @@ const ShowRoverImages = (roverImages) => {
 }
 
 mapImageData = (rawImagePhotos) => {
-    //console.log(rawImagePhotos)
-    rawImagePhotos.roverImages.photos.map(photosSol => {
-        return {
-            id: photosSol.id,
+    const photos = rawImagePhotos.roverImages.photos.map(photosSol => 
+        ({  id: photosSol.id,
             sol: photosSol.sol,
             camera: photosSol.camera,
             img_src: photosSol.img_src,
             earth_date: photosSol.earth_date,
             rover: photosSol.rover.name
-        }
-    })
+        })
+    )
+    return {photos}
 }
-
-// ------------------------------------------------------  API CALLS
-
-// // Example API call
-// const getImageOfTheDay = () => {
-//     // let { apod } = state
-
-//     fetch(`http://localhost:3000/apod`)
-//         .then(res => res.json())
-//         .then(apod => updateStore(store, { apod }))
-
-//     //return data
-// }
 
 // API call to retrieve data for a rover
 const getRoverData = (roverName) => {
@@ -224,12 +146,10 @@ const getRoverData = (roverName) => {
 const getRoverImages = (roverName) => {
     roverImages = 'getRoverImages'
     const solImages = document.getElementById('sol-id').value
-    //console.log('Sol: '+solImages)
     updateStore(store, { roverImages })
     fetch(`http://localhost:3000/images?name=${roverName}&sol=${solImages}`)
         .then(res => res.json())
         .then(rawImageData => mapImageData(rawImageData))
-        // .then(roverImages => console.log(roverImages))
         .then(roverImages => updateStore(store, { roverImages }))
 }
 
