@@ -13,28 +13,14 @@ app.use(bodyParser.json())
 
 app.use('/', express.static(path.join(__dirname, '../public')))
 
-// your API calls
-
-// // example API call
-// app.get('/apod', async (req, res) => {
-//     try {
-//         let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
-//             .then(res => res.json())
-//         res.send({ image })
-//     } catch (err) {
-//         console.log('error:', err);
-//     }
-// })
 
 // API call for rover data - query string must be name of rover
 app.get('/rover', async (req, res) => {
     try {
         const roverName = req.query.name;
-        //let roverData = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
-        let roverInfo = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${roverName}?api_key=${process.env.API_KEY}`)
+        let roverData = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${roverName}?api_key=${process.env.API_KEY}`)
             .then(res => res.json())
-            //.then(json => console.log(json))
-        res.send( {roverInfo} )
+        res.send( {roverData} )
     } catch (err) {
         console.log('error:', err);
     }
@@ -46,7 +32,6 @@ app.get('/images', async (req, res) => {
         const sol = req.query.sol;
         let roverImages = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${roverName}/photos?sol=${sol}&api_key=${process.env.API_KEY}`)
             .then(res => res.json())
-            //.then(json => console.log(json))
         res.send({ roverImages })
     } catch (err) {
         console.log('error:', err);
