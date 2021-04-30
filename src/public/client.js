@@ -56,7 +56,7 @@ window.addEventListener('load', () => {
 * @returns {String} - html markup for rover cards 
 */
 const ShowRoverList = (rovers) => {
-    console.log('In ShowRoverList')
+    //console.log('In ShowRoverList')
     roverList = '';
     rovers.forEach(rover => {
         roverList += 
@@ -75,7 +75,7 @@ const ShowRoverList = (rovers) => {
 * @returns {String} - html markup for rover section of the app
 */
 const ShowRoverData = (roverData) => {
-    console.log('In ShowRoverData')
+    //console.log('In ShowRoverData')
     if (roverData === 'getRoverData') {
         return (`<h2> Loading rover data...</h2>`)
     }
@@ -110,7 +110,7 @@ const ShowRoverData = (roverData) => {
 * @returns {String} - html markup for image section of the app
 */
 const ShowRoverImages = (roverImages) => {
-    console.log('In ShowRoverImages')
+    //console.log('In ShowRoverImages')
     if (roverImages === 'getRoverImages') {
         return (`<h2> Loading rover images...</h2>`)
     }
