@@ -106,7 +106,7 @@ const ShowRoverImages = (roverImages) => {
     }
     else {
         let imageInfo = 
-            `<h2>${roverImages.photos[0].name} Images for Sol ${roverImages.photos[0].sol}</h2> 
+            `<h2>${roverImages.photos[0].rover} Images for Sol ${roverImages.photos[0].sol}</h2> 
             <div class="grid">`
         roverImages.photos.forEach(photo => {
             imageInfo += `<article>`
@@ -119,11 +119,11 @@ const ShowRoverImages = (roverImages) => {
     }
 }
 
-mapImageData = (rawImagePhotos) => {
+const mapImageData = (rawImagePhotos) => {
     const photos = rawImagePhotos.roverImages.photos.map(photosSol => 
         ({  id: photosSol.id,
             sol: photosSol.sol,
-            camera: photosSol.camera,
+            camera: photosSol.camera.name,
             img_src: photosSol.img_src,
             earth_date: photosSol.earth_date,
             rover: photosSol.rover.name
